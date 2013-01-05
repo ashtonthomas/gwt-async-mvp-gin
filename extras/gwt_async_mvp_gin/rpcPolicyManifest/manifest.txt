@@ -1,0 +1,2 @@
+# Module gwt_async_mvp_gin
+# RPC service class, partial path of RPC policy file

@@ -8,6 +8,13 @@
 
     <%@ include file="partials/styles.jsp" %>
 
+    <script>
+		var fooBarTest = {
+				foo: "this",
+				bar: "that"
+		};
+    </script>
+
 
     <title>Web Application Starter Project</title>
     <script type="text/javascript" language="javascript" src="gwt_async_mvp_gin/gwt_async_mvp_gin.nocache.js"></script>
