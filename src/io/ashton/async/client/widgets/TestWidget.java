@@ -12,7 +12,7 @@ public class TestWidget extends Composite {
   interface TestWidgetUiBinder extends UiBinder<Widget, TestWidget> {
   }
 
-  private TestWidget() {
+  public TestWidget() {
     initWidget(uiBinder.createAndBindUi(this));
   }
 

@@ -9,6 +9,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.ResettableEventBus;
 import com.google.gwt.event.shared.UmbrellaException;
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceChangeEvent;
 import com.google.gwt.place.shared.PlaceChangeRequestEvent;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -37,7 +38,6 @@ public class AsyncActivityManager implements PlaceChangeEvent.Handler,
 
     public void setWidget(IsWidget view) {
       if (this.activity == AsyncActivityManager.this.currentActivity) {
-        startingNext = false;
         showWidget(view);
       }
     }
@@ -65,7 +65,7 @@ public class AsyncActivityManager implements PlaceChangeEvent.Handler,
 
   private AcceptsOneWidget display;
 
-  private boolean startingNext = false;
+  private Place currentPlace = null;
 
   private HandlerRegistration handlerRegistration;
 
@@ -109,10 +109,15 @@ public class AsyncActivityManager implements PlaceChangeEvent.Handler,
    * treatment.
    */
   public void onPlaceChange(PlaceChangeEvent event) {
+
+    // The most recent PCE should determine the current activity
+    // after any deferred async loading
+    this.currentPlace = event.getNewPlace();
+
     getNextActivity(event,new ActivityCallbackHandler() {
 
       @Override
-      public void onRecieveActivity(Activity nextActivity) {
+      public void onRecieveActivity(Activity nextActivity, Place linkedPlace) {
 
         Throwable caughtOnStop = null;
         Throwable caughtOnCancel = null;
@@ -126,13 +131,15 @@ public class AsyncActivityManager implements PlaceChangeEvent.Handler,
           return;
         }
 
-        if (startingNext) {
+
+
+        if (currentPlace != linkedPlace) {
           // The place changed again before the new current activity showed
           // its
           // widget
           caughtOnCancel = tryStopOrCancel(false);
           currentActivity = NULL_ACTIVITY;
-          startingNext = false;
+
         } else if (!currentActivity.equals(NULL_ACTIVITY)) {
           showWidget(null);
 
@@ -149,7 +156,6 @@ public class AsyncActivityManager implements PlaceChangeEvent.Handler,
         if (currentActivity.equals(NULL_ACTIVITY)) {
           showWidget(null);
         } else {
-          startingNext = true;
           caughtOnStart = tryStart();
         }
 

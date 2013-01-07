@@ -15,7 +15,7 @@ public class AppAsyncActivityMapper implements AsyncActivityMapper {
 
   public interface ActivityFactory {
     HomeActivity homeActivity(String name);
-    WorkActivity workActivity();
+    WorkActivity workActivity(String foo);
   }
 
   @Inject
@@ -35,7 +35,7 @@ public class AppAsyncActivityMapper implements AsyncActivityMapper {
         @Override
         public void onSuccess() {
           activityCallbackHandler.onRecieveActivity(factory.homeActivity(((HomePlace) place)
-              .getToken()));
+              .getToken()), place);
         }
 
         @Override
@@ -49,7 +49,7 @@ public class AppAsyncActivityMapper implements AsyncActivityMapper {
       GWT.runAsync(WorkActivity.class, new RunAsyncCallback() {
         @Override
         public void onSuccess() {
-          activityCallbackHandler.onRecieveActivity(factory.workActivity());
+          activityCallbackHandler.onRecieveActivity(factory.workActivity(((WorkPlace) place).getToken()), place);
         }
 
         @Override
