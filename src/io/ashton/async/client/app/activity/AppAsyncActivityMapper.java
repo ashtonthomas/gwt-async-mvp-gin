@@ -15,7 +15,7 @@ public class AppAsyncActivityMapper implements AsyncActivityMapper {
 
   public interface ActivityFactory {
     HomeActivity homeActivity(String name);
-    // WorkActivity workActivity(String something);
+    WorkActivity workActivity();
   }
 
   @Inject
@@ -24,7 +24,6 @@ public class AppAsyncActivityMapper implements AsyncActivityMapper {
   public AppAsyncActivityMapper() {
     System.out.println("init AppAsyncActivityMapper");
   }
-
 
   @Override
   public void getActivity(final Place place, final ActivityCallbackHandler activityCallbackHandler) {
@@ -35,8 +34,10 @@ public class AppAsyncActivityMapper implements AsyncActivityMapper {
       GWT.runAsync(HomeActivity.class, new RunAsyncCallback() {
         @Override
         public void onSuccess() {
-          activityCallbackHandler.onRecieveActivity(factory.homeActivity(((HomePlace) place).getToken()));
+          activityCallbackHandler.onRecieveActivity(factory.homeActivity(((HomePlace) place)
+              .getToken()));
         }
+
         @Override
         public void onFailure(Throwable reason) {
           Window.alert("Fail to load activity");
@@ -48,14 +49,14 @@ public class AppAsyncActivityMapper implements AsyncActivityMapper {
       GWT.runAsync(WorkActivity.class, new RunAsyncCallback() {
         @Override
         public void onSuccess() {
-          activityCallbackHandler.onRecieveActivity(new WorkActivity());
+          activityCallbackHandler.onRecieveActivity(factory.workActivity());
         }
+
         @Override
         public void onFailure(Throwable reason) {
           Window.alert("Fail to load activity");
         }
       });
-
 
     }
 

@@ -2,7 +2,6 @@ package io.ashton.async.client.app.activity;
 
 import io.ashton.async.client.app.place.WorkPlace;
 import io.ashton.async.client.app.view.HomeView;
-import io.ashton.async.client.app.view.HomeViewImpl;
 import io.ashton.async.shared.SharedConstants;
 
 import com.google.gwt.activity.shared.AbstractActivity;
@@ -18,9 +17,9 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
   private PlaceController placeController;
 
   @AssistedInject
-  public HomeActivity(PlaceController placeController,
+  public HomeActivity(HomeView view, PlaceController placeController,
       @Assisted String name){
-    this.view = new HomeViewImpl();
+    this.view = view;
     this.name = name;
     this.placeController = placeController;
   }
