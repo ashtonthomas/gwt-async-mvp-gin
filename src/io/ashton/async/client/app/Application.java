@@ -1,8 +1,8 @@
 package io.ashton.async.client.app;
 
+import io.ashton.async.client.app.activity.async.AsyncActivityManager;
 import io.ashton.async.client.widgets.MySPTestWidget;
 
-import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -27,11 +27,11 @@ public class Application {
   private PlaceController placeController;
   private PlaceHistoryHandler historyHandler;
 
-  private ActivityManager activityManager;
+  private AsyncActivityManager activityManager;
 
   @Inject
   public Application(EventBus eventBus, PlaceController placeController,
-      PlaceHistoryHandler historyHandler, ActivityManager activityManager){
+      PlaceHistoryHandler historyHandler, AsyncActivityManager activityManager){
     this.eventBus = eventBus;
     this.placeController = placeController;
     this.historyHandler = historyHandler;
