@@ -37,7 +37,7 @@ public class AppInjectorModule extends AbstractGinModule {
     bind(HomeView.class).to(HomeViewImpl.class).in(Singleton.class);
     bind(WorkView.class).to(WorkViewImpl.class).in(Singleton.class);
 
-    bind(AppPlaceHistoryMapper.class).in(Singleton.class);
+    bind(AppPlaceHistoryMapper.class).in(Singleton.class); // This looks like a DUPLICATE - TODO may need to investigate this
 
     install(new GinFactoryModuleBuilder()
       .implement(HomeActivity.class, HomeActivity.class)
